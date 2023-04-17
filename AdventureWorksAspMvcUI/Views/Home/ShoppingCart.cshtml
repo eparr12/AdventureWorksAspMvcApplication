@@ -1,0 +1,115 @@
+﻿@model IEnumerable<AdventureWorksAspMvcUI.Models.ShoppingCartModel>
+@using System.Linq
+@using AdventureWorksAspMvcUI.Helpers;
+@using Microsoft.AspNetCore.Http;
+
+@{
+    ViewData["Title"] = "Shopping Cart";
+    var emptyCart = @ViewBag.emptyCart;
+    var payPalConfirm = @ViewBag.PayPalConfirm;
+    if (payPalConfirm == null)
+    {
+        payPalConfirm = 0;
+    }
+}
+
+<h1>Shopping Cart</h1>
+
+@if (emptyCart == 1)
+{
+   <div class="alert alert-danger">
+       <stong>No Product In Shopping Cart!</stong>
+   </div> 
+}
+
+
+<table class="table table-hover table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Qty)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ListPrice)
+            </th>
+            <th>
+                Total
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model) {
+             <form asp-controller="ShoppingCart" asp-action="RemoveFromCart" method="post">
+            <tr>
+            <td>
+                @Html.HiddenFor(modelItem => item.Id)
+                @Html.DisplayFor(modelItem => item.Name)
+                @Html.HiddenFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductNumber)
+                @Html.HiddenFor(modelItem => item.ProductNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+                @Html.HiddenFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Qty)
+                @Html.HiddenFor(modelItem => item.Qty)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ListPrice)
+                @Html.HiddenFor(modelItem => item.ListPrice)
+            </td>
+            <td>
+                @{var total = (item.ListPrice * item.Qty).ToString("C");}
+
+                @total
+            </td>
+            <td>
+                <div>
+                    <label class="form-label">Add To Cart</label>
+                </div>
+
+                <div>
+                     <button name ="item" type="submit" class="btn btn-primary" value="@item">Remove</button>
+                 </div>
+            </td>
+        </tr>
+            </form>
+}
+
+    </tbody>
+</table>
+
+<li>
+ <p>Subtotal:</p> @ViewBag.Subtotal
+
+<h6>Checkout</h6>
+
+@if (payPalConfirm == 0)
+{
+    <div>
+        <a class="btn btn-primary" href="/ShoppingCart/PaymentWithPaypal">Pay With PayPal</a>
+    </div>
+}
+
+@if (payPalConfirm == 1)
+{
+    <div>
+        <a class="btn btn-primary" href="/ShoppingCart/ConfirmPayPal">Confirm Payment</a>
+    </div>
+}
+
+</li>

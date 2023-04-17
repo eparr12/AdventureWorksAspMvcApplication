@@ -1,0 +1,20 @@
+﻿@{
+    ViewData["Title"] = "PayPal Confirmation";
+    var paypal = @ViewBag.PayPal;
+}
+
+<h1>PayPal Confirmation</h1>
+
+@if (paypal == 0)
+{
+       <div class="alert alert-danger">
+           <stong>Payment Failed! Please Try Again!</stong>
+       </div> 
+}
+
+@if (paypal == 1)
+{
+           <div class="alert alert-danger">
+               <stong>Payment Success! Thank You For Shopping With Us!</stong>
+           </div> 
+}

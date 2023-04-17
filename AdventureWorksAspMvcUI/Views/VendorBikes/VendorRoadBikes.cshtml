@@ -1,0 +1,115 @@
+﻿@model IEnumerable<AdventureWorksAspMvcUI.Models.VendorBikeAndComponentModel>
+
+@{
+    ViewData["Title"] = "Road Bikes";
+}
+
+<h1>Road Bikes</h1>
+
+<table class="table table-hover table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Color)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VendorPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FormatSize)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FormatWeight)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductLine)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Class)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Category)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SubCategory)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Model)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <form asp-controller="ShoppingCart" asp-action="AddToCart" asp-route-Id="@item.Id" asp-route-Name="@item.Name" asp-route-ProductNumber="@item.ProductNumber"
+                                        asp-route-Description="@item.Description" asp-route-ListPrice="@item.VendorPrice" method="post">
+            <tr>
+                <td>
+                    @Html.HiddenFor(modelItem => item.Id)
+                    @Html.DisplayFor(modelItem => item.Name)
+                    @Html.HiddenFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                    @Html.HiddenFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductNumber)
+                    @Html.HiddenFor(modelItem => item.ProductNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Color)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VendorPrice)
+                    @Html.HiddenFor(modelItem => item.VendorPrice)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FormatSize)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FormatWeight)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductLine)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Class)
+                </td>
+                <td>
+                    <a href="@Url.Action(RemoveWhiteSpace.removeWhiteSpace(item.Category), "VendorProducts")"> @Html.DisplayFor(modelItem => item.Category)<span></span></a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SubCategory)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Model)
+                </td>
+                <td>
+                    <p>Qty</p>
+                        @Html.TextBox("Qty",null, new {@class = "form-control", @type = "number", @min = "1", @required  = "required", style = "width:75px" })
+                </td>
+                <td>
+                        <div>
+                            <label class="form-label">Add To Cart</label>
+                        </div>
+
+                        <div>
+                            <button name ="item" type="submit" class="btn btn-primary">Add</button>
+                        </div>
+                </td>
+            </tr>
+                </form>
+        }
+    </tbody>
+</table>

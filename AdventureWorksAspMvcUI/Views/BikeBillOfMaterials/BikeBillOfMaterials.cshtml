@@ -1,0 +1,73 @@
+﻿@model IEnumerable<AdventureWorksAspMvcUI.Models.BikeBillOfMaterialsModel>
+
+@{
+    ViewData["Title"] = "Bike Bill Of Materials";
+}
+
+<h1>Bike Bill Of Materials</h1>
+
+<table class="table table-hover table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalQuantity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VendorPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BOMLevel)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+            @foreach (var item in Model)
+            {
+            <form asp-controller="ShoppingCart" asp-action="AddToCart" asp-route-Id="@item.Id" asp-route-Name="@item.Name" asp-route-ProductNumber="@item.ProductNumber"
+                                            asp-route-ListPrice="@item.VendorPrice" method="post">
+            <tr>
+                <td>
+                            @Html.HiddenFor(modelItem => item.Id)
+                            @Html.DisplayFor(modelItem => item.Name)
+                            @Html.HiddenFor(modelItem => item.Name)
+                </td>
+                <td>
+                            @Html.DisplayFor(modelItem => item.ProductNumber)
+                            @Html.HiddenFor(modelItem => item.ProductNumber)
+                </td>
+                <td>
+                            @Html.DisplayFor(modelItem => item.TotalQuantity)
+                </td>
+                <td>
+                            @Html.DisplayFor(modelItem => item.VendorPrice)
+                            @Html.HiddenFor(modelItem => item.VendorPrice)
+                </td>
+                <td>
+                            @Html.DisplayFor(modelItem => item.BOMLevel)
+                </td>
+                <td>
+                    <p>Qty</p>
+                        @Html.TextBox("Qty",item.TotalQuantity, new {@class = "form-control", @type = "number", @min = "1", @required  = "required", style = "width:75px", Text = 1})
+                </td>
+                <td>
+                        <div>
+                            <label class="form-label">Add To Cart</label>
+                        </div>
+
+                        <div>
+                            <button name ="item" type="submit" class="btn btn-primary">Add</button>
+                        </div>
+                </td>
+            </tr>
+                </form>
+            }
+    </tbody>
+</table>

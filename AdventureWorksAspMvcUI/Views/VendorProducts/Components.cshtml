@@ -1,0 +1,124 @@
+﻿@model AdventureWorksAspMvcUI.Models.BikeSelectListModel
+
+@{
+    ViewData["Title"] = "Components";
+    var component = @ViewBag.Components;
+}
+
+<h1>Components</h1>
+
+<form asp-controller="BikeBillOfMaterials" asp-action="BikeBillOfMaterials" method="post">
+    <div>
+        <label class="form-label">Get Bill Of Materials</label>
+
+        <select class="form-select" asp-items="Model.BikesSelectList" asp-for="SelectedBike">
+            <option value="EMPTY">--Please Select A Bike Model--</option>
+        </select>
+    </div>
+    <div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+</form>
+
+<table class="table table-hover table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Description
+            </th>
+            <th>
+                Product Number
+            </th>
+            <th>
+                Color
+            </th>
+            <th>
+                Price
+            </th>
+            <th>
+                Size
+            </th>
+            <th>
+                Weight
+            </th>
+            <th>
+                Product Line
+            </th>
+            <th>
+                Class
+            </th>
+            <th>
+                Category
+            </th>
+            <th>
+                SubCategory
+            </th>
+            <th>
+                Model
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in ViewBag.Components)
+        {
+                <form asp-controller="ShoppingCart" asp-action="AddToCart" asp-route-Id="@item.Id" asp-route-Name="@item.Name" asp-route-ProductNumber="@item.ProductNumber"
+                                        asp-route-Description="@item.Description" asp-route-ListPrice="@item.VendorPrice" method="post">
+                <tr>
+                    <td>
+                        @item.Name
+                    </td>
+                    <td>
+                        @item.Description
+                    </td>
+                    <td>
+                        @item.ProductNumber
+                    </td>
+                    <td>
+                        @item.Color
+                    </td>
+                    <td>
+                        @item.VendorPrice.ToString("C")
+                    </td>
+                    <td>
+                        @item.FormatSize
+                    </td>
+                    <td>
+                        @item.FormatWeight
+                    </td>
+                    <td>
+                        @item.ProductLine
+                    </td>
+                    <td>
+                        @item.Class
+                    </td>
+                    <td>
+                        @item.Category
+                    </td>
+                    <td>
+                        <a asp-controller="Components" asp-action="@RemoveWhiteSpace.removeWhiteSpace(@item.SubCategory)">@item.SubCategory</a>
+                    </td>
+                    <td>
+                        @item.Model
+                    </td>
+                 <td>
+                    <p>Qty</p>
+                        @Html.TextBox("Qty",null, new {@class = "form-control", @type = "number", @min = "1", @required  = "required", style = "width:75px" })
+                </td>
+                <td>
+                        <div>
+                            <label class="form-label">Add To Cart</label>
+                        </div>
+
+                        <div>
+                            <button name ="item" type="submit" class="btn btn-primary">Add</button>
+                        </div>
+                </td>
+            </tr>
+                </form>
+        }
+    </tbody>
+</table>
